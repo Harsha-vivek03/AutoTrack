@@ -1,0 +1,15 @@
+# Server configuration
+server.port=8011
+# Backend base URL
+backend.base-url=http://localhost:8080
+
+
+# Thymeleaf configuration
+spring.thymeleaf.prefix=classpath:/templates/
+spring.thymeleaf.suffix=.html
+spring.thymeleaf.cache=false
+
+# Logging (optional)
+logging.level.org.springframework.web=DEBUG
+logging.level.com.carcaddy.frontend=DEBUG
+spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration

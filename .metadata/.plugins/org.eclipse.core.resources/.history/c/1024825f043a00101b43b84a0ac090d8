@@ -1,0 +1,69 @@
+package com.carcaddy.model;
+
+import java.time.LocalDate;
+import java.util.List;
+
+import org.antlr.v4.runtime.misc.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Positive;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name="car")
+public class Car {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long carId;
+	@NotBlank(message = "This field cannot be empty")
+	private String vehicleType;
+	@NotBlank(message = "This field cannot be empty")
+	private String model;
+	@Min(value = 1900, message = "Year of manufacture must be greater than 1900")
+	@Max(value = 2025, message = "Year of manufacture must be less than 2025")
+	private int yearOfManufacture;
+	@NotBlank(message = "This field cannot be empty")
+	private String licencePlateNumber;
+	@NotBlank(message = "This field cannot be empty")
+	private String registrationCertificate;
+	@NotBlank(message = "This field cannot be empty")
+	private String fuelType;
+	
+	@Positive
+	private double mileage;
+	@Past(message = "This field value should be  past date")
+	private LocalDate lastMaintenanceDate;
+	@Future(message = "This field value should be future date")
+	private LocalDate nextMaintenanceDate;
+	
+	
+	// A car can have mulutiple maintenance history .So to get the maintenance history of that particular car has
+	 @OneToMany(mappedBy = "car", cascade =CascadeType.ALL)
+	 @JsonIgnoreProperties("car")
+	private List<Maintenance> maintenance;
+
+}
